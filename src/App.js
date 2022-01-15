@@ -4,18 +4,18 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import { AppDiv, Text, Title } from "./components/styles/styled";
-import LS from "./helpers/LocalStorage";
+import LocalStorage from "./helpers/LocalStorage";
 
 function App() {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState("");
   useEffect(() => {
-    const contacts = LS.getFromList();
+    const contacts = LocalStorage.getFromList();
     setContacts(contacts);
   }, []);
 
   useEffect(() => {
-    LS.addToList(contacts);
+    LocalStorage.addToList(contacts);
   }, [contacts]);
 
   const addContact = (data) => {
@@ -44,7 +44,9 @@ function App() {
 
   function checkUniqueContact(data) {
     return contacts.findIndex(
-      (contact) => contact.name === data.name || contact.number === data.number
+      (contact) =>
+        contact.name.toLowerCase() === data.name.toLowerCase() ||
+        contact.number === data.number
     );
   }
 
